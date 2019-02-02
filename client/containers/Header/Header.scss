@@ -1,0 +1,16 @@
+.header {
+  &-root {
+    width: 100%;
+  }
+
+  &-grow {
+    flex-grow: 1;
+  }
+  &-menu-button {
+    margin-left: -1rem;
+    margin-top: 2rem;
+  }
+  &-title {
+    display: none;
+  }
+}
