@@ -166,7 +166,7 @@ class PrimarySearchAppBar extends React.Component {
 							variant="h6"
 							color="inherit"
 							noWrap>
-							Material-UI
+							{'Neto\'s Company'}
 						</Typography>
 						<div className={classes.search}>
 							<div className={classes.searchIcon}>
