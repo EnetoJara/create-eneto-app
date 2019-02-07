@@ -1,8 +1,6 @@
-import { combineReducers } from 'redux';
-import app from './appReducer';
+import { combineReducers } from "redux";
+import app from "./appReducer";
 
-const combinados = combineReducers({
-	app,
-});
+const combinados = combineReducers({ app, });
 
 export default combinados;

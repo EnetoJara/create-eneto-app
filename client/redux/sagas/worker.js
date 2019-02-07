@@ -1,7 +1,7 @@
-import { put } from 'redux-saga/effects';
-import { toggleSideBarSuccess } from '../actions/appActions';
+import { put } from "redux-saga/effects";
+import { toggleSideBarSuccess } from "../actions/appActions";
 
-function* workerToggleSideBar() {
+function* workerToggleSideBar () {
 	yield put(toggleSideBarSuccess());
 }
 

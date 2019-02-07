@@ -1,41 +1,27 @@
 {
-  "presets": [
-    [
-      "@babel/env",
-      {
-        "targets": {
-          "node": "current"
-        },
-        "useBuiltIns": "entry"
-      }
-    ],
-    ["@babel/react"]
-  ],
-  "plugins": [
-    ["@babel/plugin-proposal-export-default-from"],
-    ["@babel/plugin-external-helpers"],
-    ["@babel/plugin-syntax-dynamic-import"],
-    ["@babel/plugin-proposal-class-properties"],
-    ["@babel/plugin-transform-object-super"],
-    ["@babel/plugin-transform-arrow-functions"],
-    ["babel-plugin-minify-builtins"],
-    ["babel-plugin-syntax-async-functions"],
-    ["@babel/transform-runtime"],
-    ["react-hot-loader/babel"],
-    ["@babel/plugin-proposal-object-rest-spread"]
-  ]
+	"presets": [
+		[
+			"@babel/env",
+			{
+				"targets": {
+					"node": "current"
+				},
+				"useBuiltIns": "entry"
+			}
+		],
+		["@babel/react"]
+	],
+	"plugins": [
+		["@babel/plugin-proposal-export-default-from"],
+		["@babel/plugin-external-helpers"],
+		["@babel/plugin-syntax-dynamic-import"],
+		["@babel/plugin-proposal-class-properties"],
+		["@babel/plugin-transform-object-super"],
+		["@babel/plugin-transform-arrow-functions"],
+		["babel-plugin-minify-builtins"],
+		["babel-plugin-syntax-async-functions"],
+		["@babel/transform-runtime"],
+		["react-hot-loader/babel"],
+		["@babel/plugin-proposal-object-rest-spread"]
+	]
 }
-/**
-  plugins: [
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-  ],
-*/

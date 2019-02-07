@@ -1,36 +1,20 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable global-require */
-import Express from 'express';
-import BodyParser from 'body-parser';
-import expressStaticGzip from 'express-static-gzip';
-import testRoute from './routes/test.routes';
-import aux from '../config/webpack.config';
+import express from "express";
+import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
+import compress from "compression";
+import cors from "cors";
+import helmet from "helmet";
 
-const server = Express();
-const { log } = console;
+import userRoutes from "./routes/user.routes";
+import authRoutes from "./routes/auth.routes";
+const app = express();
 
-if (process.env.NODE_ENV !== 'production') {
-  // eslint-disable-next-line import/no-extraneous-dependencies
-  const cors = require('cors');
-  const webpack = require('webpack');
-  server.use(cors());
-  const config = aux(process.env.NODE_ENV);
-  const compiler = webpack(config);
-  const webpackDevMiddleware = require('webpack-dev-middleware')(compiler, config.devServer);
-  const webpackHotMiddleware = require('webpack-hot-middleware')(compiler, config.devServer);
-  server.use(webpackDevMiddleware);
-  server.use(webpackHotMiddleware);
-}
-
-server.use(BodyParser.json());
-server.use('/api', testRoute);
-server.use(expressStaticGzip('build', { enabledBrotli: true }));
-
-const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => {
-  log(
-    `server running or some shit Server listening on http://localhost:${PORT} in ${
-      process.env.NODE_ENV
-    }`,
-  );
-});
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true, }));
+app.use(cookieParser());
+app.use(compress());
+app.use(helmet());
+app.use(cors());
+app.use("/api/users", userRoutes);
+app.use("/api/auth", authRoutes);
+export default app;

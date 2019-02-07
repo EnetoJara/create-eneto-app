@@ -1,15 +1,15 @@
-import { handleActions } from 'redux-actions';
-import { toggleSideBar, toggleSideBarSuccess } from '../actions/appActions';
-import { appLoading } from '../actions/appActions';
+import { handleActions } from "redux-actions";
+import { toggleSideBar, toggleSideBarSuccess } from "../actions/appActions";
+import { appLoading } from "../actions/appActions";
 
 const reducer = handleActions(
 	new Map([
 		[
 			toggleSideBar,
-			(state, action) => ({ ...state, openSideBar: action.payload }),
+			(state, action) => ({ ...state, openSideBar: action.payload, })
 		],
-		[appLoading, (state, action) => ({ ...state, loading: action.payload })],
-		[toggleSideBarSuccess, (state) => ({ ...state })],
+		[appLoading, (state, action) => ({ ...state, loading: action.payload, })],
+		[toggleSideBarSuccess, (state) => ({ ...state, })]
 	]),
 	{
 		loading: false,
