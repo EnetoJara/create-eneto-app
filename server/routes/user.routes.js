@@ -1,28 +1,33 @@
 import { Router } from "express";
 
 import {
-	list,
+	remove,
 	create,
+	list,
+	byId,
 	read,
 	update,
-	remove,
-	byId
+	photo,
+	defaultPhoto
 } from "../controllers/user.controller";
 import {
-	hasAuthorization,
-	requireSignin
+	requireSignin,
+	hasAuthorization
 } from "../controllers/auth.controller";
 
 const api = new Router();
 
 api.route("/")
-	.get(list)
-	.post(create);
+	.post(create)
+	.get(list);
+//
 api.route("/:userId")
 	.get(requireSignin, read)
 	.put(requireSignin, hasAuthorization, update)
-	.delete(remove);
+	.delete(requireSignin, hasAuthorization, remove);
 api.param("userId", byId);
 
-export default api;
+api.route("/photo/:userId").get(photo, defaultPhoto);
+api.route("/defaultphoto").get(defaultPhoto);
 
+export default api;

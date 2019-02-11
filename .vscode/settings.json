@@ -1,0 +1,13 @@
+{
+    "editor.fontLigatures": true,
+    "editor.fontWeight": "bold",
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "editor.fontFamily": "'Fira Code iScript', 'Fira Code', Menlo, Monaco, 'Courier New', monospace",
+    "debug.enableAllHovers": true,
+    "debug.allowBreakpointsEverywhere": true,
+    "debug.inlineValues": true,
+    "editor.cursorBlinking": "smooth",
+    "editor.cursorSmoothCaretAnimation": true,
+    "editor.find.autoFindInSelection": true
+}

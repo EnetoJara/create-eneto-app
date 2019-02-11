@@ -1,29 +1,29 @@
-const fs = require('fs');
-const path = require('path');
-const webpack = require('webpack');
-const BrotliPlugin = require('brotli-webpack-plugin');
-const CompressionPlugin = require('compression-webpack-plugin');
-const PnpWebpackPlugin = require('pnp-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
-const InlineChunkHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin');
-const TerserPlugin = require('terser-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const safePostCssParser = require('postcss-safe-parser');
-const ManifestPlugin = require('webpack-manifest-plugin');
-const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
-const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
-const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
-const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
-const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
-const paths = require('./paths');
-const getClientEnvironment = require('./env');
-const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
+const fs = require("fs");
+const path = require("path");
+const webpack = require("webpack");
+const BrotliPlugin = require("brotli-webpack-plugin");
+const CompressionPlugin = require("compression-webpack-plugin");
+const PnpWebpackPlugin = require("pnp-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
+const InlineChunkHtmlPlugin = require("react-dev-utils/InlineChunkHtmlPlugin");
+const TerserPlugin = require("terser-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const safePostCssParser = require("postcss-safe-parser");
+const ManifestPlugin = require("webpack-manifest-plugin");
+const InterpolateHtmlPlugin = require("react-dev-utils/InterpolateHtmlPlugin");
+const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
+const WatchMissingNodeModulesPlugin = require("react-dev-utils/WatchMissingNodeModulesPlugin");
+const ModuleScopePlugin = require("react-dev-utils/ModuleScopePlugin");
+const getCSSModuleLocalIdent = require("react-dev-utils/getCSSModuleLocalIdent");
+const paths = require("./paths");
+const getClientEnvironment = require("./env");
+const ModuleNotFoundPlugin = require("react-dev-utils/ModuleNotFoundPlugin");
 
-const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
+const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== "false";
 
-const shouldInlineRuntimeChunk = process.env.INLINE_RUNTIME_CHUNK !== 'false';
+const shouldInlineRuntimeChunk = process.env.INLINE_RUNTIME_CHUNK !== "false";
 
 const useTypeScript = fs.existsSync(paths.appTsConfig);
 
@@ -33,44 +33,47 @@ const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
 
 module.exports = function(webpackEnv) {
-	const isEnvDevelopment = webpackEnv === 'development';
-	const isEnvProduction = webpackEnv === 'production';
+	console.log("webpackEnv: ", webpackEnv);
+	const isEnvDevelopment = webpackEnv === "development";
+	const isEnvProduction = webpackEnv === "production";
 
 	const publicPath = isEnvProduction
 		? paths.servedPath
-		: isEnvDevelopment && '/';
+		: isEnvDevelopment && "/";
 
-	const shouldUseRelativeAssetPaths = publicPath === './';
+	const shouldUseRelativeAssetPaths = publicPath === "./";
 
 	const publicUrl = isEnvProduction
 		? publicPath.slice(0, -1)
-		: isEnvDevelopment && '';
+		: isEnvDevelopment && "";
 
 	const env = getClientEnvironment(publicUrl);
 
 	const getStyleLoaders = (cssOptions, preProcessor) => {
 		const loaders = [
-			isEnvDevelopment && require.resolve('style-loader'),
+			isEnvDevelopment && require.resolve("style-loader"),
 			isEnvProduction && {
 				loader: MiniCssExtractPlugin.loader,
 				options: Object.assign(
 					{},
-					shouldUseRelativeAssetPaths ? { publicPath: '../../' } : undefined,
+					shouldUseRelativeAssetPaths
+						? { publicPath: "../../" }
+						: undefined,
 				),
 			},
 			{
-				loader: require.resolve('css-loader'),
+				loader: require.resolve("css-loader"),
 				options: cssOptions,
 			},
 			{
-				loader: require.resolve('postcss-loader'),
+				loader: require.resolve("postcss-loader"),
 				options: {
-					ident: 'postcss',
+					ident: "postcss",
 					plugins: () => [
-						require('postcss-flexbugs-fixes'),
-						require('postcss-preset-env')({
+						require("postcss-flexbugs-fixes"),
+						require("postcss-preset-env")({
 							autoprefixer: {
-								flexbox: 'no-2009',
+								flexbox: "no-2009",
 							},
 							stage: 3,
 						}),
@@ -91,20 +94,22 @@ module.exports = function(webpackEnv) {
 	};
 
 	return {
-		mode: isEnvProduction ? 'production' : isEnvDevelopment && 'development',
+		mode: isEnvProduction
+			? "production"
+			: isEnvDevelopment && "development",
 
 		bail: isEnvProduction,
 		devtool: isEnvProduction
 			? shouldUseSourceMap
-				? 'source-map'
+				? "source-map"
 				: false
-			: isEnvDevelopment && 'cheap-module-source-map',
+			: isEnvDevelopment && "cheap-module-source-map",
 
-		entry: [isEnvProduction ? './client/prod.js' : './client/dev.js'].filter(
-			Boolean,
-		),
+		entry: [
+			isEnvProduction ? "./client/prod.js" : "./client/dev.js",
+		].filter(Boolean),
 		devServer: {
-			contentBase: 'build',
+			contentBase: "build",
 			hot: true,
 			overlay: true,
 			stats: {
@@ -117,23 +122,25 @@ module.exports = function(webpackEnv) {
 			pathinfo: isEnvDevelopment,
 
 			filename: isEnvProduction
-				? 'static/js/[name].[chunkhash:8].js'
-				: isEnvDevelopment && 'static/js/bundle.js',
+				? "static/js/[name].[chunkhash:8].js"
+				: isEnvDevelopment && "static/js/bundle.js",
 
 			chunkFilename: isEnvProduction
-				? 'static/js/[name].[chunkhash:8].chunk.js'
-				: isEnvDevelopment && 'static/js/[name].chunk.js',
+				? "static/js/[name].[chunkhash:8].chunk.js"
+				: isEnvDevelopment && "static/js/[name].chunk.js",
 
 			publicPath: publicPath,
 
 			devtoolModuleFilenameTemplate: isEnvProduction
-				? (info) =>
-					path
-						.relative(paths.appSrc, info.absoluteResourcePath)
-						.replace(/\\/g, '/')
+				? info =>
+						path
+							.relative(paths.appSrc, info.absoluteResourcePath)
+							.replace(/\\/g, "/")
 				: isEnvDevelopment &&
-				  ((info) =>
-				  	path.resolve(info.absoluteResourcePath).replace(/\\/g, '/')),
+				  (info =>
+						path
+							.resolve(info.absoluteResourcePath)
+							.replace(/\\/g, "/")),
 		},
 		optimization: {
 			minimize: isEnvProduction,
@@ -170,7 +177,7 @@ module.exports = function(webpackEnv) {
 
 				new OptimizeCSSAssetsPlugin({
 					assetNameRegExp: /\.css$/g,
-					cssProcessor: require('cssnano'),
+					cssProcessor: require("cssnano"),
 					canPrint: true,
 					cssProcessorOptions: {
 						parser: safePostCssParser,
@@ -182,22 +189,22 @@ module.exports = function(webpackEnv) {
 			],
 
 			splitChunks: {
-				chunks: 'all',
+				chunks: "all",
 				name: false,
 			},
 
 			runtimeChunk: true,
 		},
 		resolve: {
-			modules: ['node_modules'].concat(
+			modules: ["node_modules"].concat(
 				process.env.NODE_PATH.split(path.delimiter).filter(Boolean),
 			),
 
 			extensions: paths.moduleFileExtensions
-				.map((ext) => `.${ext}`)
-				.filter((ext) => useTypeScript || !ext.includes('ts')),
+				.map(ext => `.${ext}`)
+				.filter(ext => useTypeScript || !ext.includes("ts")),
 			alias: {
-				'react-native': 'react-native-web',
+				"react-native": "react-native-web",
 			},
 			plugins: [
 				PnpWebpackPlugin,
@@ -215,14 +222,16 @@ module.exports = function(webpackEnv) {
 
 				{
 					test: /\.(js|mjs|jsx)$/,
-					enforce: 'pre',
+					enforce: "pre",
 					use: [
 						{
 							options: {
-								formatter: require.resolve('react-dev-utils/eslintFormatter'),
-								eslintPath: require.resolve('eslint'),
+								formatter: require.resolve(
+									"react-dev-utils/eslintFormatter",
+								),
+								eslintPath: require.resolve("eslint"),
 							},
-							loader: require.resolve('eslint-loader'),
+							loader: require.resolve("eslint-loader"),
 						},
 					],
 					include: paths.appSrc,
@@ -231,43 +240,49 @@ module.exports = function(webpackEnv) {
 					oneOf: [
 						{
 							test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
-							loader: require.resolve('url-loader'),
+							loader: require.resolve("url-loader"),
 							options: {
 								limit: 10000,
-								name: 'static/media/[name].[hash:8].[ext]',
+								name: "static/media/[name].[hash:8].[ext]",
 							},
 						},
 
 						{
 							test: /\.(js|mjs|jsx|ts|tsx)$/,
 							include: paths.appSrc,
-							loader: require.resolve('babel-loader'),
+							loader: require.resolve("babel-loader"),
 							options: {
 								customize: require.resolve(
-									'babel-preset-react-app/webpack-overrides',
+									"babel-preset-react-app/webpack-overrides",
 								),
 
 								plugins: [
 									[
-										require.resolve('babel-plugin-named-asset-import'),
+										require.resolve(
+											"babel-plugin-named-asset-import",
+										),
 										{
 											loaderMap: {
 												svg: {
 													ReactComponent:
-														'@svgr/webpack?-prettier,-svgo![path]',
+														"@svgr/webpack?-prettier,-svgo![path]",
 												},
 											},
 										},
 									],
-									['@babel/plugin-proposal-export-default-from'],
-									['@babel/plugin-proposal-class-properties'],
-									['@babel/plugin-transform-object-super'],
-									['@babel/plugin-transform-arrow-functions'],
-									['babel-plugin-minify-builtins'],
-									['babel-plugin-syntax-async-functions'],
-									['@babel/syntax-dynamic-import'],
-									['react-hot-loader/babel'],
-									['@babel/plugin-proposal-object-rest-spread'],
+									[
+										"@babel/plugin-proposal-export-default-from",
+									],
+									["@babel/plugin-proposal-class-properties"],
+									["@babel/plugin-transform-object-super"],
+									["@babel/plugin-transform-arrow-functions"],
+									["babel-plugin-minify-builtins"],
+									["babel-plugin-syntax-async-functions"],
+									["@babel/syntax-dynamic-import"],
+									["react-hot-loader/babel"],
+									[
+										"@babel/plugin-proposal-object-rest-spread",
+									],
 								],
 
 								cacheDirectory: true,
@@ -279,14 +294,16 @@ module.exports = function(webpackEnv) {
 						{
 							test: /\.(js|mjs)$/,
 							exclude: /@babel(?:\/|\\{1,2})runtime/,
-							loader: require.resolve('babel-loader'),
+							loader: require.resolve("babel-loader"),
 							options: {
 								babelrc: false,
 								configFile: false,
 								compact: false,
 								presets: [
 									[
-										require.resolve('babel-preset-react-app/dependencies'),
+										require.resolve(
+											"babel-preset-react-app/dependencies",
+										),
 										{ helpers: true },
 									],
 								],
@@ -302,7 +319,8 @@ module.exports = function(webpackEnv) {
 							exclude: cssModuleRegex,
 							use: getStyleLoaders({
 								importLoaders: 1,
-								sourceMap: isEnvProduction && shouldUseSourceMap,
+								sourceMap:
+									isEnvProduction && shouldUseSourceMap,
 							}),
 
 							sideEffects: true,
@@ -312,7 +330,8 @@ module.exports = function(webpackEnv) {
 							test: cssModuleRegex,
 							use: getStyleLoaders({
 								importLoaders: 1,
-								sourceMap: isEnvProduction && shouldUseSourceMap,
+								sourceMap:
+									isEnvProduction && shouldUseSourceMap,
 								modules: true,
 								getLocalIdent: getCSSModuleLocalIdent,
 							}),
@@ -324,9 +343,10 @@ module.exports = function(webpackEnv) {
 							use: getStyleLoaders(
 								{
 									importLoaders: 2,
-									sourceMap: isEnvProduction && shouldUseSourceMap,
+									sourceMap:
+										isEnvProduction && shouldUseSourceMap,
 								},
-								'sass-loader',
+								"sass-loader",
 							),
 
 							sideEffects: true,
@@ -337,20 +357,25 @@ module.exports = function(webpackEnv) {
 							use: getStyleLoaders(
 								{
 									importLoaders: 2,
-									sourceMap: isEnvProduction && shouldUseSourceMap,
+									sourceMap:
+										isEnvProduction && shouldUseSourceMap,
 									modules: true,
 									getLocalIdent: getCSSModuleLocalIdent,
 								},
-								'sass-loader',
+								"sass-loader",
 							),
 						},
 
 						{
-							loader: require.resolve('file-loader'),
+							loader: require.resolve("file-loader"),
 
-							exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/],
+							exclude: [
+								/\.(js|mjs|jsx|ts|tsx)$/,
+								/\.html$/,
+								/\.json$/,
+							],
 							options: {
-								name: 'static/media/[name].[hash:8].[ext]',
+								name: "static/media/[name].[hash:8].[ext]",
 							},
 						},
 					],
@@ -367,18 +392,18 @@ module.exports = function(webpackEnv) {
 					},
 					isEnvProduction
 						? {
-							minify: {
-								removeComments: true,
-								collapseWhitespace: true,
-								removeRedundantAttributes: true,
-								useShortDoctype: true,
-								removeEmptyAttributes: true,
-								removeStyleLinkTypeAttributes: true,
-								keepClosingSlash: true,
-								minifyJS: true,
-								minifyCSS: true,
-								minifyURLs: true,
-							},
+								minify: {
+									removeComments: true,
+									collapseWhitespace: true,
+									removeRedundantAttributes: true,
+									useShortDoctype: true,
+									removeEmptyAttributes: true,
+									removeStyleLinkTypeAttributes: true,
+									keepClosingSlash: true,
+									minifyJS: true,
+									minifyCSS: true,
+									minifyURLs: true,
+								},
 						  }
 						: undefined,
 				),
@@ -386,7 +411,9 @@ module.exports = function(webpackEnv) {
 
 			isEnvProduction &&
 				shouldInlineRuntimeChunk &&
-				new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime~.+[.]js/]),
+				new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [
+					/runtime~.+[.]js/,
+				]),
 
 			new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
 
@@ -402,12 +429,13 @@ module.exports = function(webpackEnv) {
 				new WatchMissingNodeModulesPlugin(paths.appNodeModules),
 			isEnvProduction &&
 				new MiniCssExtractPlugin({
-					filename: 'static/css/[name].[contenthash:8].css',
-					chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
+					filename: "static/css/[name].[contenthash:8].css",
+					chunkFilename:
+						"static/css/[name].[contenthash:8].chunk.css",
 				}),
 
 			new ManifestPlugin({
-				fileName: 'asset-manifest.json',
+				fileName: "asset-manifest.json",
 				publicPath: publicPath,
 			}),
 
@@ -417,27 +445,27 @@ module.exports = function(webpackEnv) {
 				new WorkboxWebpackPlugin.GenerateSW({
 					clientsClaim: true,
 					exclude: [/\.map$/, /asset-manifest\.json$/],
-					importWorkboxFrom: 'cdn',
-					navigateFallback: publicUrl + '/index.html',
+					importWorkboxFrom: "cdn",
+					navigateFallback: publicUrl + "/index.html",
 					navigateFallbackBlacklist: [
-						new RegExp('^/_'),
+						new RegExp("^/_"),
 
-						new RegExp('/[^/]+\\.[^/]+$'),
+						new RegExp("/[^/]+\\.[^/]+$"),
 					],
 				}),
 
 			new CompressionPlugin({
-				algorithm: 'gzip',
+				algorithm: "gzip",
 			}),
 			new BrotliPlugin(),
 		].filter(Boolean),
 
 		node: {
-			dgram: 'empty',
-			fs: 'empty',
-			net: 'empty',
-			tls: 'empty',
-			child_process: 'empty',
+			dgram: "empty",
+			fs: "empty",
+			net: "empty",
+			tls: "empty",
+			child_process: "empty",
 		},
 
 		performance: false,

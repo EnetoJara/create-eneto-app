@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import crypto from "crypto";
 const UserSchema = mongoose.Schema({
 	name: { type: String, trim: true, required: "Name is required", },
 	email: {
@@ -9,10 +9,12 @@ const UserSchema = mongoose.Schema({
 		match: [/.+@.+\..+/, "Please fill a valid email address"],
 		required: "Email is required",
 	},
+	about: { type: String, trim: true, },
 	created: {
 		type: Date,
 		default: Date.now,
 	},
+	photo: { data: Buffer, contentType: String, },
 	updated: Date,
 	hashed_password: {
 		type: String,
@@ -51,7 +53,7 @@ UserSchema.methods = {
 	},
 };
 
-UserSchema.path("hashed_password").calidate(function () {
+UserSchema.path("hashed_password").validate(function (v) {
 	if (this._password && this._password.length < 6) {
 		this.invalidate(
 			"password",

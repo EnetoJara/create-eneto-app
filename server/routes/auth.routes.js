@@ -1,9 +1,9 @@
-import { Router } from "express";
-import { signin, signout } from "../controllers/auth.controller";
+import express from "express";
+import authCtrl from "../controllers/auth.controller";
 
-const api = new Router();
+const router = express.Router();
 
-api.route("/signin").post(signin);
-api.route("/signout").get(signout);
+router.route("/signin").post(authCtrl.signin);
+router.route("/signout").get(authCtrl.signout);
 
-export default api;
+export default router;

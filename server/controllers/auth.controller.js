@@ -4,9 +4,10 @@ import expressJwt from "express-jwt";
 import config from "./../../config/config";
 
 function signin (req, res) {
+	const { body, } = req.body;
 	User.findOne(
 		{
-			email: req.body.email,
+			email: body.email,
 		},
 		(err, user) => {
 			if (err || !user)
@@ -44,11 +45,11 @@ function signout (req, res) {
 		message: "signed out",
 	});
 }
-const requireSignin = expressJwt({
+export const requireSignin = expressJwt({
 	secret: config.jwtSecret,
 	userProperty: "auth",
 });
-function hasAuthorization (req, res, next) {
+export function hasAuthorization (req, res, next) {
 	const authorized =
 		req.profile && req.auth && req.profile._id === req.auth._id;
 	if (!authorized) {

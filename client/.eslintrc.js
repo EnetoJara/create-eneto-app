@@ -25,7 +25,6 @@ module.exports = {
 	},
 	rules: {
 		"consistent-return": 0,
-		"no-unused-expressions": 0,
 		"no-warning-comments": 0,
 		"react/no-multi-comp": 0,
 		"react/require-default-props": 0,

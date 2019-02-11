@@ -1,28 +1,23 @@
 const path = require("path");
-const webpack = require("webpack");
 const nodeExternals = require("webpack-node-externals");
 
 module.exports = env => {
 	return {
 		target: "node",
 		node: {
+			__filename: false,
 			__dirname: false,
-			__filename: false
 		},
 		externals: [nodeExternals()],
-		entry: {
-			server: [
-				process.env.BUILDING
-					? "./server/server.js"
-					: "./server/index.js"
-			]
-		},
-		mode: "production",
+		entry: process.env.BUILDING ? "./server/prod.js" : "./server/index.js",
+		devtool: "source-map",
+		mode: process.env.NODE_ENV,
 		output: {
 			filename: "[name]-bundle.js",
+			chunkFilename: "[name].chunk.js",
 			path: path.resolve(__dirname, "../dist"),
 			publicPath: "/",
-			libraryTarget: "commonjs2"
+			libraryTarget: "commonjs2",
 		},
 		optimization: {
 			splitChunks: {
@@ -32,10 +27,10 @@ module.exports = env => {
 						name: "vendor",
 						test: /[\\/]node_modules[\\/]/,
 						chunks: "initial",
-						minChunks: 2
-					}
-				}
-			}
+						minChunks: 2,
+					},
+				},
+			},
 		},
 		module: {
 			rules: [
@@ -44,44 +39,19 @@ module.exports = env => {
 					exclude: /node_modules/,
 					use: [
 						{
-							loader: "babel-loader"
-						}
-					]
+							loader: "babel-loader",
+						},
+					],
 				},
 				{
-					test: /\.css$/,
-					use: {
-						loader: "css-loader"
-					}
-				},
-				{
-					test: /\.jpg$/,
+					test: /\.(png|jpg|gif)$/,
 					use: [
 						{
 							loader: "file-loader",
-							options: {
-								name: "images/[name].[ext]",
-								emitFile: false
-							}
-						}
-					]
+						},
+					],
 				},
-				{
-					test: /\.md$/,
-					use: [
-						{
-							loader: "markdown-with-front-matter-loader"
-						}
-					]
-				}
-			]
+			],
 		},
-		plugins: [
-			new webpack.DefinePlugin({
-				"process.env": {
-					NODE_ENV: JSON.stringify(env.NODE_ENV)
-				}
-			})
-		]
 	};
 };

@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import "react-mdl/extra/css/material.yellow-light_green.min.css";
 import "react-mdl/extra/material.js";
-import "./index.scss";
+
 import * as serviceWorker from "./serviceWorker";
 import App from "./containers/App";
 import rootSagas from "./redux/sagas";
