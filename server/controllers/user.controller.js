@@ -2,7 +2,12 @@ import extend from "lodash/extend";
 import User from "../models/user.model";
 import errorHandler from "../helpers/dbErrorHandler";
 import { vNewUser } from "../helpers/validator";
-
+/**
+ *
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
 export function create (req, res, next) {
 	const auxUser = { ...req.body, };
 	const isValid = vNewUser(auxUser);
@@ -33,9 +38,7 @@ export function list (req, res) {
 export function byId (req, res, next, id) {
 	User.findById(id).exec((err, user) => {
 		if (err || !user)
-			return res.status("400").json({
-				errors: "User not found",
-			});
+			return res.status("400").json({ errors: "User not found", });
 		req.profile = user;
 		next();
 	});
@@ -62,7 +65,11 @@ export function update (req, res, next) {
 		return res.json(user);
 	});
 }
-
+/**
+ *
+ * @param {*} req
+ * @param {*} res
+ */
 export function remove (req, res) {
 	const user = req.profile;
 	user.remove((err, deletedUser) => {

@@ -1,3 +1,4 @@
+const webpackDashboard = require("webpack-dashboard/plugin");
 const fs = require("fs");
 const path = require("path");
 const webpack = require("webpack");
@@ -416,7 +417,7 @@ module.exports = function(webpackEnv) {
 				]),
 
 			new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
-
+			new webpackDashboard(),
 			new ModuleNotFoundPlugin(paths.appPath),
 
 			new webpack.DefinePlugin(env.stringified),
